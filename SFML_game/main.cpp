@@ -7,6 +7,7 @@
 #include "Collider.h"
 
 static const float View_HEIGHT = 720.0f;
+bool Retry(false);
 
 void ResizeView(const sf::RenderWindow& window, sf::View& view)
 {
@@ -16,7 +17,7 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view)
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Game Start!");
 	//sf::RectangleShape background(sf::Vector2f(90.0f, 100.0f));
 	//layer.setFillColor(sf::Color::Blue);
 	//background.setPosition(100.0f, 450.0f);
@@ -75,22 +76,18 @@ int main()
 			case sf::Event::Resized:
 				//window size
 				//std::cout<<"NEw window width:"<< evnt.size.width << "New window height" << evnt.size.height << std::endl;
-				
 				break;
+			
 			}
+
+			
 
 
 		}
-
-	//MOUSE
-		/*if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		{
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			player.setPosition((float)mousePos.x, static_cast<float>(mousePos.y));
-		}*/
+	
+	
 		
 		player.Update(deltaTime);
-
 		//Collider playerGetCollider = player.GetCollider();
 		view.setCenter(player.GetPosition());
 		Collider playerCollision = player.GetCollider(); // Dammit!!!!
@@ -108,12 +105,19 @@ int main()
 
 	window.clear();
 	window.draw(background);
-	
 	player.Draw(window);
 	for (Platform& platform : platforms)
 		 platform.Draw(window);
 	window.display();
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
+		{
+			Retry = true;
+		}
+	if (Retry) 
+		{
+			window.close();
+		}
 
 
 	}

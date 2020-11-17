@@ -17,7 +17,7 @@ Playerr::Playerr(sf::Texture* texture, sf::Vector2u imageCount, float switchtime
 void Playerr::Update(float deltaTime)
 {
 
-	velocity.x *= 0.0f;
+	velocity.x *= 0.5f;
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
@@ -27,6 +27,18 @@ void Playerr::Update(float deltaTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		velocity.x += speed;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift ) and sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		velocity.x *= 0.9f;
+		velocity.x += speed;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) and sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		velocity.x *= 0.9f;
+		velocity.x -= speed;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && canJump)
