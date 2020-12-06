@@ -14,6 +14,7 @@ public:
 	sf::Vector2f GetPosition() { return body.getPosition(); }
 	Collider GetCollider() { return Collider(body); }
 
+
 private:
 	sf::RectangleShape body;
 	animation Animation;

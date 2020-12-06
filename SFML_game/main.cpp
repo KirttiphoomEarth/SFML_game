@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+﻿#include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
 #include <cassert>
@@ -15,7 +15,6 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view)
 	float aspectRatio = float(window.getSize().x) / float(window.getSize().y);
 	view.setSize((View_HEIGHT)*aspectRatio, View_HEIGHT);
 }
-
 void background()
 {
 	///////////////////////////////////////////// * BACKGROUND * /////////////////////////////////////////////
@@ -41,6 +40,10 @@ void background()
 	}*/
 	///////////////////////////////////////////// * BACKGROUND * /////////////////////////////////////////////
 }
+void platforms()
+{
+
+}
 
 int main()
 {
@@ -52,16 +55,26 @@ int main()
 
 	sf::Texture tex;
 	sf::Sprite Backgroundack;
-	assert(tex.loadFromFile("zzzzzzmap.png"));
+	assert(tex.loadFromFile("zmapeiei.png"));
 	Backgroundack.setTexture(tex);
 
-	
+	///////////////////////////////////////////// พื้น platforms ปกติ //////////////////////////////////////////////////////
 	std::vector<Platform> platforms;
 
-	platforms.push_back(Platform(nullptr, sf::Vector2f(3000.0f, 160.0f), sf::Vector2f(500.0f, 635.0f)));
-
+	platforms.push_back(Platform(nullptr, sf::Vector2f(15.0f, 257.0f), sf::Vector2f(140.5f, 261.5f)));
+	platforms.push_back(Platform(nullptr, sf::Vector2f(180.0f, 10.0f), sf::Vector2f(190.0f, 390.0f)));
+	platforms.push_back(Platform(nullptr, sf::Vector2f(160.0f, 10.0f), sf::Vector2f(240.0f, 420.0f)));
+	platforms.push_back(Platform(nullptr, sf::Vector2f(250.0f, 10.0f), sf::Vector2f(230.0f, 450.0f)));
+	platforms.push_back(Platform(nullptr, sf::Vector2f(790.0f, 10.0f), sf::Vector2f(575.0f, 460.0f)));
+	platforms.push_back(Platform(nullptr, sf::Vector2f(120.0f, 13.0f), sf::Vector2f(970.0f, 490.0f)));			// + 15 px
+	platforms.push_back(Platform(nullptr, sf::Vector2f(380.0f, 21.0f), sf::Vector2f(1210.0f, 528.0f)));
+	platforms.push_back(Platform(nullptr, sf::Vector2f(269.0f, 19.0f), sf::Vector2f(1238.5f, 405.5f)));			//เพดานอุโมงแรก
+	platforms.push_back(Platform(nullptr, sf::Vector2f(88.0f, 10.0f), sf::Vector2f(1443.0f, 620.0f)));			//หนาม 1 
 	//Platform platformY(nullptr, sf::Vector2f(200.0f, 3000.0f), sf::Vector2f(1990.0f,1000.0f));
 
+	///////////////////////////////////////////// พื้น platforms ปกติ //////////////////////////////////////////////////////
+	
+	
 	float deltaTime = 0.0f;
 	sf::Clock clock;
 
@@ -80,19 +93,13 @@ int main()
 				window.close();
 				break;
 			case sf::Event::Resized:
-				//window size
-				//std::cout<<"NEw window width:"<< evnt.size.width << "New window height" << evnt.size.height << std::endl;
-				
 				ResizeView(window, view);
 				break;
 			
 			}
-
-			
-
-
 		}
 			
+		
 	
 		
 		player.Update(deltaTime);
@@ -114,8 +121,8 @@ int main()
 	window.draw(Backgroundack);
 	window.setView(view);
 	player.Draw(window);
-	/*for (Platform& platform : platforms)
-		 platform.Draw(window);*/
+	for (Platform& platform : platforms)
+		 platform.Draw(window);
 	window.display();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 

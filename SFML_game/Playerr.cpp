@@ -8,10 +8,11 @@ Playerr::Playerr(sf::Texture* texture, sf::Vector2u imageCount, float switchtime
 	faceRight = true;
 
 
-	body.setSize(sf::Vector2f(60.0f, 70.0f));
-	body.setPosition(100.0f, 200.0f);
-	body.setOrigin(45, 50);
+	body.setSize(sf::Vector2f(40.0f, 50.0f));
+	body.setPosition(150.0f, 200.0f);
+	body.setOrigin(body.getSize() / 2.0f);
 	body.setTexture(texture);
+
 	
 }
 
@@ -49,9 +50,9 @@ void Playerr::Update(float deltaTime)
 
 	}
 
-	velocity.y += 981.0f * deltaTime;
-
-
+	//velocity.y += 981.0f * deltaTime;
+	velocity.y += 1600.0f * deltaTime;
+	
 
 	if (velocity.x == 0.0f)
 	{
