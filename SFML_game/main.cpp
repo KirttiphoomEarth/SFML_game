@@ -6,6 +6,8 @@
 #include"Playerr.h"
 #include "Platform.h"
 #include "Collider.h"
+#include "Enemy.h"
+#include "Bullet.h" 
 
 static const float View_HEIGHT = 700.0f;
 bool Retry(false);
@@ -45,12 +47,19 @@ void background()
 
 int main()
 {
-	
+	std::vector<Platform> platforms;
+	std::vector<Bullet> bullet;
+
 	sf::RenderWindow window(sf::VideoMode(1024, 786), "Game Start!");
 	sf::Texture playerTexture;
+	sf::Texture bulletTexture;
 	playerTexture.loadFromFile("warrior spritesheet calciumtrice.png");
-	Playerr player(&playerTexture, sf::Vector2u(10, 10), 0.1f, 100.0f, 200.0f);
+	Playerr player(&playerTexture, sf::Vector2u(10, 10), 0.09f, 100.0f, 200.0f);
 	sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(View_HEIGHT, View_HEIGHT));
+	
+	sf::RectangleShape hitboxBody;
+
+	Enemy enemy(sf::Vector2f(4568.0f,553.0f));
 	
 	sf::Texture tex;
 	sf::Sprite Backgroundack;
@@ -58,8 +67,6 @@ int main()
 	Backgroundack.setTexture(tex);
 	
 	///////////////////////////////////////////// พื้น platforms ปกติ //////////////////////////////////////////////////////
-	std::vector<Platform> platforms;
-
 	platforms.push_back(Platform(nullptr, sf::Vector2f(15.0f, 257.0f), sf::Vector2f(140.5f, 261.5f)));
 	platforms.push_back(Platform(nullptr, sf::Vector2f(180.0f, 10.0f), sf::Vector2f(190.0f, 390.0f)));
 	platforms.push_back(Platform(nullptr, sf::Vector2f(160.0f, 10.0f), sf::Vector2f(240.0f, 420.0f)));
@@ -86,7 +93,7 @@ int main()
 	platforms.push_back(Platform(nullptr, sf::Vector2f(74.0f, 9.0f), sf::Vector2f(1877.0f, 622.5f)));			//หนาม 5
 	platforms.push_back(Platform(nullptr, sf::Vector2f(74.0f, 9.0f), sf::Vector2f(1985.0f, 622.5f)));			//หนาม 6
 	platforms.push_back(Platform(nullptr, sf::Vector2f(74.0f, 9.0f), sf::Vector2f(2096.0f, 622.5f)));			//หนาม 7
-	platforms.push_back(Platform(nullptr, sf::Vector2f(1689.62f, 9.0f), sf::Vector2f(2903.0f, 622.5f)));		//หนาม 8
+	platforms.push_back(Platform(nullptr, sf::Vector2f(1750.62f, 9.0f), sf::Vector2f(2903.0f, 622.5f)));		//หนาม 8
 	platforms.push_back(Platform(nullptr, sf::Vector2f(47.0f, 21.0f), sf::Vector2f(1493.5f, 522.5f)));			// พื้นบนเสา 1
 	platforms.push_back(Platform(nullptr, sf::Vector2f(47.0f, 21.0f), sf::Vector2f(1714.5f, 525.5f)));			// พื้นบนเสา 2
 	platforms.push_back(Platform(nullptr, sf::Vector2f(47.0f, 21.0f), sf::Vector2f(1932.5f, 525.5f)));			// พื้นบนเสา 3
@@ -174,12 +181,12 @@ int main()
 	platforms.push_back(Platform(nullptr, sf::Vector2f(617.0f, 23.0f), sf::Vector2f(8998.4f, 295.0f)));		// เพดาน
 	//Platform platformY(nullptr, sf::Vector2f(200.0f, 3000.0f), sf::Vector2f(1990.0f,1000.0f));
 	///////////////////////////////////////////// พื้น platforms ปกติ //////////////////////////////////////////////////////
-	sf::Clock cl;
+	
 
 	float deltaTime = 0.0f;
 	sf::Clock clock;
-	float time;
-	
+	sf::Clock bulletTime;
+	float bull;
 	
 
 	while (window.isOpen())
@@ -226,7 +233,18 @@ int main()
 		if (player.GetPosition().x > 3858.0f && player.GetPosition().x < 3861.0f && player.GetPosition().y >= 200.0f && player.GetPosition().y < 560.0f) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); }
 		if (player.GetPosition().x > 3817.0f && player.GetPosition().x < 3833.0f && player.GetPosition().y == 580.50f ) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); }*/
 		//////////////////////////////////////////////  check dead หนาม //////////////////////////////////////////////////////////////////////// //
-		
+		bull = bulletTime.getElapsedTime().asSeconds();
+		if (bull > 1) 
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
+			{
+				if (player.faceRight == false) {
+					bullet.push_back(Bullet(&bulletTexture, sf::Vector2u(), 0, sf::Vector2f(player.GetPosition().x - 10, player.GetPosition().y), -100));
+				}
+				else bullet.push_back(Bullet(&bulletTexture, sf::Vector2u(), 0, sf::Vector2f(player.GetPosition().x + 10, player.GetPosition().y), 100));
+				bulletTime.restart();
+			}
+		}
 
 		player.Update(deltaTime);
 		//Collider playerGetCollider = player.GetCollider();
@@ -237,16 +255,29 @@ int main()
 		for (Platform& platform : platforms)
 			if (platform.GetCollider().CheckCollision(playerCollision, direction, 1.0f))
 				player.OnCollision(direction);
+		for (Bullet& bullet : bullet)
+			bullet.Update(deltaTime);
 
-
-
-
-				//platformY.GetCollider().CheckCollision(playerGetCollider, direction, 1.0f);
+		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
+		hitboxBody.setOutlineColor(sf::Color::White);
+		hitboxBody.setSize(sf::Vector2f(20.f,50.0f));
+		hitboxBody.setPosition(player.GetPosition().x-10, player.GetPosition().y-25);
+		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
+		/*if (player.attckCheck == true)
+		{
+			printf("*********************************************");
+			
+		}*/
 
 	window.clear(sf::Color(40, 37, 56));
+	window.draw(hitboxBody);
 	window.draw(Backgroundack);
 	window.setView(view);
 	player.Draw(window);
+	enemy.Draw(window);
+	
+	for (Bullet& bullet : bullet)
+		bullet.Draw(window);
 	for (Platform& platform : platforms)
 		 platform.Draw(window);
 	window.display();

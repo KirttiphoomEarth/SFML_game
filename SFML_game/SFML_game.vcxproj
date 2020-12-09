@@ -147,7 +147,9 @@
   <ItemGroup>
     <ClCompile Include="acttack.cpp" />
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Playerr.cpp" />
@@ -155,7 +157,9 @@
   <ItemGroup>
     <ClInclude Include="acttack.h" />
     <ClInclude Include="animation.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Playerr.h" />
   </ItemGroup>

@@ -7,7 +7,7 @@ Playerr::Playerr(sf::Texture* texture, sf::Vector2u imageCount, float switchtime
 	row = 0;
 	faceRight = true;
 	hp = 100;
-	
+	attckCheck = false;
 
 
 	body.setSize(sf::Vector2f(40.0f, 50.0f));
@@ -20,7 +20,7 @@ Playerr::Playerr(sf::Texture* texture, sf::Vector2u imageCount, float switchtime
 
 void Playerr::Update(float deltaTime)
 {
-
+	
 	//velocity.x *= 0.45f; // ใช้จริง
 	velocity.x *= 0.7f;
 	
@@ -52,6 +52,7 @@ void Playerr::Update(float deltaTime)
 		velocity.y = -sqrt(1.5f * 981.0f * jumpHeight);
 
 	}
+	
 
 	//velocity.y += 981.0f * deltaTime;
 	//velocity.y += 1450.0f * deltaTime; // ใช้จริง
@@ -78,6 +79,7 @@ void Playerr::Update(float deltaTime)
 	{
 
 		row = 3;
+
 	}
 	
 	//if (body.getPosition().x > 1410.0f && body.getPosition().x < 1475.0f && body.getPosition().y == 590.0f) { row = 4; body.setPosition(sf::Vector2f(8000.0f, 570.0f)); }

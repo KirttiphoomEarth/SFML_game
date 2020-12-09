@@ -13,6 +13,8 @@ public:
 	void SetPosition(sf::Vector2f(position)) { body.setPosition(position); }
 	sf::Vector2f GetPosition() { return body.getPosition(); }
 	Collider GetCollider() { return Collider(body); }
+	bool attckCheck;
+	bool faceRight;
 	
 
 private:
@@ -20,12 +22,13 @@ private:
 	animation Animation;
 	unsigned int row;
 	float speed;
-	bool faceRight;
+	
 	
 	sf::Vector2f velocity;
 	bool canJump;
 	float jumpHeight;
 
 	int hp;
+	
 };
 
