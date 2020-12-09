@@ -1,4 +1,7 @@
 ﻿  main.cpp
-  Playerr.cpp
-  Generating Code...
+C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(181,8): warning C4101: 'time': unreferenced local variable
+Platform.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'Platform.obj' or at 'C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\vc142.pdb'; linking object as if no debug info
+Collider.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'Collider.obj' or at 'C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\vc142.pdb'; linking object as if no debug info
+animation.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'animation.obj' or at 'C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\vc142.pdb'; linking object as if no debug info
+acttack.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'acttack.obj' or at 'C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\vc142.pdb'; linking object as if no debug info
   SFML_game.vcxproj -> C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\SFML_game.exe

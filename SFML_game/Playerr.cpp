@@ -1,4 +1,4 @@
-#include "Playerr.h"
+﻿#include "Playerr.h"
 Playerr::Playerr(sf::Texture* texture, sf::Vector2u imageCount, float switchtime, float speed, float jumpHeight) :
 	Animation(texture, imageCount, switchtime)
 {
@@ -6,11 +6,13 @@ Playerr::Playerr(sf::Texture* texture, sf::Vector2u imageCount, float switchtime
 	this->jumpHeight = jumpHeight;
 	row = 0;
 	faceRight = true;
+	hp = 100;
+	
 
 
 	body.setSize(sf::Vector2f(40.0f, 50.0f));
-	body.setPosition(150.0f, 200.0f);
-	body.setOrigin(body.getSize() / 2.0f);
+	body.setPosition(3600.0f, 500.0f);
+	body.setOrigin(body.getSize()/2.0f);
 	body.setTexture(texture);
 
 	
@@ -19,7 +21,8 @@ Playerr::Playerr(sf::Texture* texture, sf::Vector2u imageCount, float switchtime
 void Playerr::Update(float deltaTime)
 {
 
-	velocity.x *= 0.6f;
+	//velocity.x *= 0.45f; // ใช้จริง
+	velocity.x *= 0.7f;
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
@@ -51,7 +54,8 @@ void Playerr::Update(float deltaTime)
 	}
 
 	//velocity.y += 981.0f * deltaTime;
-	velocity.y += 1600.0f * deltaTime;
+	//velocity.y += 1450.0f * deltaTime; // ใช้จริง
+	velocity.y += 800.0f * deltaTime;
 	
 
 	if (velocity.x == 0.0f)
@@ -76,8 +80,13 @@ void Playerr::Update(float deltaTime)
 		row = 3;
 	}
 	
-
-
+	//if (body.getPosition().x > 1410.0f && body.getPosition().x < 1475.0f && body.getPosition().y == 590.0f) { row = 4; body.setPosition(sf::Vector2f(8000.0f, 570.0f)); }
+	//x == 2899 168
+	
+	/*if (body.getPosition().x > 2900.0f && body.getPosition().x < 3660.0f)
+	{
+		velocity.y += 1850.0f * deltaTime;
+	}*/
 	
 
 

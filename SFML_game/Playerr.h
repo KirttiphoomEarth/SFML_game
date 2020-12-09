@@ -10,10 +10,10 @@ public:
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	void OnCollision(sf::Vector2f direction);
-
+	void SetPosition(sf::Vector2f(position)) { body.setPosition(position); }
 	sf::Vector2f GetPosition() { return body.getPosition(); }
 	Collider GetCollider() { return Collider(body); }
-
+	
 
 private:
 	sf::RectangleShape body;
@@ -25,5 +25,7 @@ private:
 	sf::Vector2f velocity;
 	bool canJump;
 	float jumpHeight;
+
+	int hp;
 };
 
