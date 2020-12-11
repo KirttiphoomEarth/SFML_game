@@ -5,7 +5,7 @@
 class MeleeAttack
 {
 public :
-	MeleeAttack(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, sf::Vector2f position);
+	MeleeAttack(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, sf::Vector2f position, float speed);
 
 	void Update(float switchTime);
 	void Draw(sf::RenderWindow& window);
@@ -14,6 +14,7 @@ public :
 
 	float GetDmg() { return dmg; }
 	bool isDestroy() { return isDestroyBool; }
+	float speed;
 	Collider GetCollider() { return Collider(body); }
 
 private:

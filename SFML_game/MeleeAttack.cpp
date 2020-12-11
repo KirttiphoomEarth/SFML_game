@@ -1,8 +1,9 @@
 #include "MeleeAttack.h"
 
-MeleeAttack::MeleeAttack(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, sf::Vector2f position) :
+MeleeAttack::MeleeAttack(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, sf::Vector2f position, float speed) :
 	animation(texture, imageCount, switchTime)
 {
+	this->speed = speed;
 	this->dmg = 50.0f;
 	body.setSize(sf::Vector2f(20.0f, 20.0f));
 	body.setOrigin(body.getSize() / 2.0f);
@@ -13,8 +14,8 @@ MeleeAttack::MeleeAttack(sf::Texture* texture, sf::Vector2u imageCount, float sw
 
 void MeleeAttack::Update(float deltaTime)
 {
-	velocity.x = 0;
-
+	
+	//velocity.x = speed;
 	body.setTextureRect(animation.uvRect);
 	body.move(velocity * deltaTime);
 }

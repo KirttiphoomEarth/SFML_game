@@ -1,6 +1,6 @@
 ﻿  main.cpp
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(248,52): warning C4244: '=': conversion from 'sf::Int32' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(201,8): warning C4101: 'melle': unreferenced local variable
+C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(250,52): warning C4244: '=': conversion from 'sf::Int32' to 'float', possible loss of data
+C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(263,57): warning C4244: '=': conversion from 'sf::Int32' to 'float', possible loss of data
 Platform.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'Platform.obj' or at 'C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\vc142.pdb'; linking object as if no debug info
 Collider.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'Collider.obj' or at 'C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\vc142.pdb'; linking object as if no debug info
 animation.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'animation.obj' or at 'C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\vc142.pdb'; linking object as if no debug info
