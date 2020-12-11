@@ -22,8 +22,6 @@ private:
 	animation Animation;
 	unsigned int row;
 	float speed;
-	
-	
 	sf::Vector2f velocity;
 	bool canJump;
 	float jumpHeight;

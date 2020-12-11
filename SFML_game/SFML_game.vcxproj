@@ -151,6 +151,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Playerr.cpp" />
   </ItemGroup>
@@ -160,6 +161,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Playerr.h" />
   </ItemGroup>

@@ -2,10 +2,10 @@
 #include<SFML/Graphics.hpp>
 #include "animation.h"
 #include "Collider.h"
-class Bullet
+class MeleeAttack
 {
 public :
-	Bullet(sf::Texture* texture,sf::Vector2u imageCount,float switchTime,sf::Vector2f position,float speed);
+	MeleeAttack(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, sf::Vector2f position);
 
 	void Update(float switchTime);
 	void Draw(sf::RenderWindow& window);
@@ -14,11 +14,9 @@ public :
 
 	float GetDmg() { return dmg; }
 	bool isDestroy() { return isDestroyBool; }
-	float speed;
 	Collider GetCollider() { return Collider(body); }
 
-
-private :
+private:
 	sf::RectangleShape body;
 	sf::RectangleShape texture;
 	animation animation;
