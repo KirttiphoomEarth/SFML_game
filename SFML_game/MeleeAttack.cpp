@@ -5,7 +5,7 @@ MeleeAttack::MeleeAttack(sf::Texture* texture, sf::Vector2u imageCount, float sw
 {
 	this->speed = speed;
 	this->dmg = 50.0f;
-	body.setSize(sf::Vector2f(20.0f, 20.0f));
+	body.setSize(sf::Vector2f(35.0f, 20.0f));
 	body.setOrigin(body.getSize() / 2.0f);
 	body.setPosition(position);
 	body.setTexture(texture);

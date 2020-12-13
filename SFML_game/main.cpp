@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "Bullet.h" 
 #include "MeleeAttack.h"
+#include "Hitbox.h"
 
 static const float View_HEIGHT = 700.0f;
 bool Retry(false);
@@ -49,18 +50,24 @@ void background()
 int main()
 {
 	
-	int enemyHP = 100;
-	int i;
+	int playerHP = 100;
+	 int i;
 	int j;
+	float enemiesFack = 100.0f;
 	std::vector<Platform> platforms;
 	std::vector<Bullet> bullets;
 	std::vector<MeleeAttack> meleeattacks;
 	std::vector<Enemy> enemies;
+	std::vector<Playerr> players;
+	//std::vector<Hitbox> hitbox;
+	
 	sf::RenderWindow window(sf::VideoMode(1024, 786), "Game Start!");
 	sf::Texture playerTexture;
 	sf::Texture bulletTexture;
 	sf::Texture enemiesTexture;
 	sf::Texture meleeattacksTexture;
+
+
 	playerTexture.loadFromFile("warrior spritesheet calciumtrice.png");
 	Playerr player(&playerTexture, sf::Vector2u(10, 10), 0.09f, 100.0f, 200.0f);
 	sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(View_HEIGHT, View_HEIGHT));
@@ -70,6 +77,12 @@ int main()
 	sf::Sprite Backgroundack;
 	assert(tex.loadFromFile("zmapeiei.png"));
 	Backgroundack.setTexture(tex);
+
+	///////////////////////////////////////////// ศัตรู //////////////////////////////////////////////////////
+	//enemies.push_back(Enemy(sf::Vector2f(4500.50f, 553.0f),1.0f));
+	//enemies.push_back(Enemy(sf::Vector2f(5000.0f, 553.0f),1.0f));
+	enemies.push_back(Enemy(&enemiesTexture, sf::Vector2u(), 0, sf::Vector2f(4600.0f, 553.0f), enemiesFack));
+	///////////////////////////////////////////// ศัตรู //////////////////////////////////////////////////////
 
 	///////////////////////////////////////////// พื้น platforms ปกติ //////////////////////////////////////////////////////
 	platforms.push_back(Platform(nullptr, sf::Vector2f(15.0f, 257.0f), sf::Vector2f(140.5f, 261.5f)));
@@ -187,20 +200,14 @@ int main()
 	//Platform platformY(nullptr, sf::Vector2f(200.0f, 3000.0f), sf::Vector2f(1990.0f,1000.0f));
 	///////////////////////////////////////////// พื้น platforms ปกติ //////////////////////////////////////////////////////
 	
-	
-	///////////////////////////////////////////// ศัตรู //////////////////////////////////////////////////////
-	enemies.push_back(Enemy(sf::Vector2f(4568.0f, 553.0f)));
-	enemies.push_back(Enemy(sf::Vector2f(5000.0f, 553.0f)));
-	
-	
-	///////////////////////////////////////////// ศัตรู //////////////////////////////////////////////////////
-	
 	float deltaTime = 0.0f;
 	sf::Clock clock;
 	sf::Clock bulletTime;
 	sf::Clock meleettackTime;
+	sf::Clock hitboxTime;
 	float bull;
 	float melle;
+	float hitT;
 	
 
 	while (window.isOpen())
@@ -247,6 +254,17 @@ int main()
 		if (player.GetPosition().x > 3858.0f && player.GetPosition().x < 3861.0f && player.GetPosition().y >= 200.0f && player.GetPosition().y < 560.0f) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); }
 		if (player.GetPosition().x > 3817.0f && player.GetPosition().x < 3833.0f && player.GetPosition().y == 580.50f ) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); }*/
 		//////////////////////////////////////////////  check dead หนาม //////////////////////////////////////////////////////////////////////// //
+
+		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
+		/*hitboxBody.setOutlineColor(sf::Color::White);
+		hitboxBody.setSize(sf::Vector2f(20.f, 50.0f));
+		hitboxBody.setPosition(player.GetPosition().x - 10, player.GetPosition().y - 25);*/
+		//hitbox.push_back(Hitbox(sf::Vector2f(player.GetPosition().x -10,player.GetPosition().y -25)));
+		Hitbox hitbox(sf::Vector2f(player.GetPosition().x, player.GetPosition().y));
+		Collider hitboxCollision = hitbox.GetCollider();
+		hitT = hitboxTime.getElapsedTime().asMilliseconds();
+		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
+
 		bull = bulletTime.getElapsedTime().asMilliseconds();
 		if (bull > 500.0f)
 		{
@@ -261,7 +279,7 @@ int main()
 		}
 		
 		melle = meleettackTime.getElapsedTime().asMilliseconds();
-		if (melle > 200.0f)
+		if (melle > 400.0f)
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
 			{
@@ -276,6 +294,11 @@ int main()
 		
 		
 		player.Update(deltaTime);
+		hitbox.Update(deltaTime);
+		
+		for (i = 0; i < enemies.size(); i++)
+			enemies[i].Update(deltaTime);
+
 		//Collider playerGetCollider = player.GetCollider();
 		view.setCenter(player.GetPosition());
 		Collider playerCollision = player.GetCollider();
@@ -284,6 +307,18 @@ int main()
 		for (Platform& platform : platforms)
 			if (platform.GetCollider().CheckCollision(playerCollision, direction, 1.0f))
 				player.OnCollision(direction);
+
+		for (Platform& platform : platforms)
+		{
+			for (Enemy& enemie : enemies)
+			{
+				Collider temp = enemie.GetCollider();
+				if (platform.GetCollider().CheckCollision(temp, direction, 1.0f))
+					enemie.OnCollision(direction);
+			}
+		}
+			
+		///////////////////////////////////////////////////// MEELEE ATTACK ////////////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////// Bullet ////////////////////////////////////////////////////////////////
 		for (Bullet& bullet : bullets)
 		{
@@ -356,16 +391,22 @@ int main()
 					}
 					else
 					{
-						if (melle > 5000)
+						if (melle > 470)
 						{
 							meleeattacks.erase(meleeattacks.begin() + j);
 							bulletTime.restart();
 						}
 					}
 				}
-			
-
-
+				if(hitbox.GetCollider().CheckCollision(temp, direction, 1.0f))
+				{
+					if (hitT > 400)
+					{
+						//printf(" Hit\n ");
+						hitboxTime.restart();
+					}
+					
+				}
 			}
 			
 		}
@@ -389,69 +430,18 @@ int main()
 			bullet.Update(deltaTime);
 		for (MeleeAttack& meleeattack : meleeattacks)
 			meleeattack.Update(deltaTime);
+		
 		///////////////////////////////////////////////////// Bullet ////////////////////////////////////////////////////////////////
-
 		///////////////////////////////////////////////////// MEELEE ATTACK ////////////////////////////////////////////////////////////////
 
-		
-		/*for ( i = 0; i < enemies.size(); i++)
-		{
-			if (enemies.size() > 0) {
-				Collider temp = enemies[i].GetCollider();
-				for (MeleeAttack& meleeattack : meleeattacks)
-				{
-					if (meleeattack.GetCollider().CheckCollision(temp, direction, 1.0f))
-					{
-						enemies[i].setHp(meleeattack.GetDmg());
-						meleeattack.SetDestroy(true);
-						if (enemies[i].GetHp() <= 0)
-						{
-							enemies.erase(enemies.begin() + i);
-						}
-					}
-				}
-				for (int j = 0; j < meleeattacks.size(); j++)
-				{
-					if (meleeattacks[j].isDestroy())
-					{
-						meleeattacks.erase(meleeattacks.begin() + j);
-						//enemyHP -= 25;
-					}
-					else
-					{
-						if (melle > 100)
-						{
-							meleeattacks.erase(meleeattacks.begin() + j);
-							meleettackTime.restart();
-						}
-					}
-				}
-
-			}
-
-		}*/
-		
-
-
-		///////////////////////////////////////////////////// MEELEE ATTACK ////////////////////////////////////////////////////////////////
-
-		///////////////////////////////////////////////////// Bullet ////////////////////////////////////////////////////////////////
-
-		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
-		hitboxBody.setOutlineColor(sf::Color::White);
-		hitboxBody.setSize(sf::Vector2f(20.f, 50.0f));
-		hitboxBody.setPosition(player.GetPosition().x - 10, player.GetPosition().y - 25);
-		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
-		
 		window.clear(sf::Color(40, 37, 56));
-		window.draw(hitboxBody);
 		window.draw(Backgroundack);
 		window.setView(view);
+		//hitbox.Draw(window);
 		player.Draw(window);
+		
 
-
-
-		/*for (Enemy& enemie : enemies)
+/*for (Enemy& enemie : enemies)
 			enemie.Draw(window);*/
 		for(int i = 0; i < enemies.size(); i++){
 			if (enemies.size() > 0) {
@@ -462,9 +452,9 @@ int main()
 	for (Bullet& bullet : bullets)
 		bullet.Draw(window);
 
-for (MeleeAttack& meleeattack : meleeattacks)
+	for (MeleeAttack& meleeattack : meleeattacks)
 		meleeattack.Draw(window);
-	
+
 	for (Platform& platform : platforms)
 		 platform.Draw(window);
 

@@ -1,8 +1,10 @@
 #include "Enemy.h"
 
-Enemy::Enemy(sf::Vector2f position)
+Enemy::Enemy(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, sf::Vector2f position, float speed) :
+	Animation(texture, imageCount, switchTime)
 
 {
+	this->speed = speed;
 	this->hp = 150.0f;
 	body.setSize(sf::Vector2f(40.0f, 50.0f));
 	body.setOrigin(body.getSize() / 2.0f);
@@ -15,6 +17,15 @@ Enemy::Enemy(sf::Vector2f position)
 void Enemy::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
+}
+
+void Enemy::Update(float deltaTime)
+{
+	velocity.x = speed;
+
+	Animation.Update(row, deltaTime, faceRight);
+	body.setTextureRect(Animation.uvRect);
+	body.move(velocity * deltaTime);
 }
 
 void Enemy::OnCollision(sf::Vector2f direction)

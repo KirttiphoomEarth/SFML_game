@@ -11,7 +11,7 @@ Playerr::Playerr(sf::Texture* texture, sf::Vector2u imageCount, float switchtime
 
 
 	body.setSize(sf::Vector2f(40.0f, 50.0f));
-	body.setPosition(3600.0f, 500.0f);
+	body.setPosition(3800.0f, 200.0f);
 	body.setOrigin(body.getSize()/2.0f);
 	body.setTexture(texture);
 
@@ -90,10 +90,6 @@ void Playerr::Update(float deltaTime)
 		velocity.y += 1850.0f * deltaTime;
 	}*/
 	
-
-
-
-
 
 	Animation.Update(row, deltaTime, faceRight);
 	body.setTextureRect(Animation.uvRect);
