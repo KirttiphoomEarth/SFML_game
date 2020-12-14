@@ -8,12 +8,12 @@ public :
 	void Draw(sf::RenderWindow& window);
 	void Update(float deltaTime);
 	void OnCollision(sf::Vector2f direction);
-	
+	sf::RectangleShape body;
 	sf::Vector2f GetPosition() { return body.getPosition(); }
 	Collider GetCollider() { return Collider(body); }
 
 private :
-	sf::RectangleShape body;
+	
 	sf::Vector2f velocity;
 	float speed;
 	float hp;

@@ -1,17 +1,4 @@
-﻿  main.cpp
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(276,52): warning C4244: '=': conversion from 'sf::Int32' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(283,103): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(284,105): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(285,105): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(286,105): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(287,105): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(288,105): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(289,105): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(290,105): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(291,105): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(292,105): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(299,52): warning C4244: '=': conversion from 'sf::Int32' to 'float', possible loss of data
-C:\Users\KIRTTIPHOOM\source\SFML_game\SFML_game\main.cpp(312,57): warning C4244: '=': conversion from 'sf::Int32' to 'float', possible loss of data
+﻿  boss.cpp
 Playerr.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'Playerr.obj' or at 'C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\vc142.pdb'; linking object as if no debug info
 Platform.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'Platform.obj' or at 'C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\vc142.pdb'; linking object as if no debug info
 MeleeAttack.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'MeleeAttack.obj' or at 'C:\Users\KIRTTIPHOOM\source\SFML_game\x64\Debug\vc142.pdb'; linking object as if no debug info
