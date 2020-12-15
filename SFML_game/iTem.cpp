@@ -1,37 +1,31 @@
-#include "Bullet.h"
+#include "iTem.h"
 
-Bullet::Bullet(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, sf::Vector2f position, float speed) :
+iTem::iTem(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, sf::Vector2f position, float speed):
 	animation(texture, imageCount, switchTime)
 {
 	this->speed = speed;
-	this->dmg = 200.0f;
-	body.setSize(sf::Vector2f(65.0f,60.0f));
+	body.setSize(sf::Vector2f(25.0f, 25.0f));
 	body.setOrigin(body.getSize() / 2.0f);
 	body.setPosition(position);
 	body.setTexture(texture);
 	faceRight = true;
 	row = 0;
-
 }
 
-void Bullet::Update(float deltaTime)
+void iTem::Update(float deltaTime)
 {
-	
 	velocity.x = speed;
 
 	body.setTextureRect(animation.uvRect);
 	body.move(velocity * deltaTime);
-
-	
-	
 }
 
-void Bullet::Draw(sf::RenderWindow& window)
+void iTem::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
 }
 
-void Bullet::SetDestroy(bool isDestroy)
+void iTem::SetDestroy(bool isDestroy)
 {
 	this->isDestroyBool = isDestroy;
 }

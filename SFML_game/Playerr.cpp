@@ -11,7 +11,8 @@ Playerr::Playerr(sf::Texture* texture, sf::Vector2u imageCount, float switchtime
 
 
 	body.setSize(sf::Vector2f(40.0f, 50.0f));
-	body.setPosition(3800.0f, 200.0f);
+	//body.setPosition(3800.0f, 200.0f);
+	body.setPosition(200.0f, 200.0f);
 	body.setOrigin(body.getSize()/2.0f);
 	body.setTexture(texture);
 
@@ -89,13 +90,17 @@ void Playerr::Update(float deltaTime)
 	{
 		velocity.y += 1850.0f * deltaTime;
 	}*/
+	if (body.getPosition().x > 166.0f && body.getPosition().x < 169 && sf::Keyboard::isKeyPressed(sf::Keyboard::O))
+	{
+		body.setPosition(3800.0f,200.0f);
+	}
 	
 
 	Animation.Update(row, deltaTime, faceRight);
 	body.setTextureRect(Animation.uvRect);
 	body.move(velocity * deltaTime);
 
-	printf("x == %.2f   y === %.2f\n", body.getPosition().x, body.getPosition().y);
+	//printf("x == %.2f   y === %.2f\n", body.getPosition().x, body.getPosition().y);
 
 
 }

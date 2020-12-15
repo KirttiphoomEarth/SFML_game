@@ -11,7 +11,8 @@ public :
 	void Update(float deltaTime);
 	void OnCollision(sf::Vector2f direction);
 	void setHp(float dmg);
-
+	
+	
 	unsigned int row;
 	bool faceRight;
 	float GetHp() { return hp; }

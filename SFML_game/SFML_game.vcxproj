@@ -152,6 +152,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Hitbox.cpp" />
+    <ClCompile Include="iTem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="Platform.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Hitbox.h" />
+    <ClInclude Include="iTem.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Playerr.h" />

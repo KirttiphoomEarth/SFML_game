@@ -48,6 +48,9 @@
     <ClCompile Include="boss.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="iTem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="boss.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="iTem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
