@@ -56,8 +56,8 @@ int main()
 {
 	srand(time(NULL));
 	int playerHP = 3;
-	int skill = 100;
-	int scocr;
+	int skill = 5;
+	int scocr = 0;
 	int i;
 	int j;
 	int Checkitem = 5;
@@ -126,6 +126,10 @@ int main()
 	sf::Text skills;
 	skills.setFont(font);
 	skills.setCharacterSize(42);
+
+	sf::Text scors;
+	scors.setFont(font);
+	scors.setCharacterSize(42);
 
 	sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(View_HEIGHT, View_HEIGHT));
 	
@@ -317,6 +321,7 @@ int main()
 				break;
 
 			}
+			scocr += player.GetPosition().x / 1000;
 		}
 
 
@@ -347,8 +352,10 @@ int main()
 		heart.setPosition(sf::Vector2f(player.GetPosition().x + 175.0f, player.GetPosition().y - 255.0f));
 
 		skills.setPosition(sf::Vector2f(player.GetPosition().x + 220.0f, player.GetPosition().y - 230.0f));
-		skillsword.setPosition(sf::Vector2f(player.GetPosition().x + 171.5f, player.GetPosition().y - 215.0f));
+		skillsword.setPosition(sf::Vector2f(player.GetPosition().x + 171.5f, player.GetPosition().y - 215.0f)); //scors
 		
+		scors.setPosition(sf::Vector2f(player.GetPosition().x - 240.0f, player.GetPosition().y - 270.0f));
+	
 		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
 		/*hitboxBody.setOutlineColor(sf::Color::White);
 		hitboxBody.setSize(sf::Vector2f(20.f, 50.0f));
@@ -357,6 +364,7 @@ int main()
 		Hitbox hitbox(sf::Vector2f(player.GetPosition().x, player.GetPosition().y));
 		Collider hitboxCollision = hitbox.GetCollider();
 		hitT = hitboxTime.getElapsedTime().asMilliseconds();
+		
 		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
 		sf::Vector2f direction;
 		///////////////////////////////////////////// ศัตรู //////////////////////////////////////////////////////
@@ -539,6 +547,7 @@ int main()
 									//items.push_back(iTem(&itemTexture, sf::Vector2u(4,1 ), 0.9f, sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 1));
 								}
 							}
+							scocr += 50;
 							enemies.erase(enemies.begin() + i);
 						}
 					}
@@ -567,7 +576,7 @@ int main()
 						meleeattack.SetDestroy(true);
 						if (enemies[i].GetHp() <= 0)
 						{
-							
+							scocr += 50;
 							enemies.erase(enemies.begin() + i);
 							
 						}
@@ -616,8 +625,8 @@ int main()
 						bosse[i].setHp(bullet.GetDmg());
 						bullet.SetDestroy(true);
 						if (bosse[i].GetHp() <= 0){
-							enemiesdid = true;
-							item_drop = rand() % 2;
+							
+							scocr += 150;
 							bosse.erase(bosse.begin() + i);
 						}
 					}
@@ -640,8 +649,7 @@ int main()
 						meleeattack.SetDestroy(true);
 						if (bosse[i].GetHp() <= 0)
 						{
-							enemiesdid = true;
-							item_drop = rand() % 2;
+							scocr += 150;
 							bosse.erase(bosse.begin() + i);
 						}
 					}
@@ -713,7 +721,7 @@ int main()
 			Collider temp = items2[i].GetCollider();
 			if (hitbox.GetCollider().CheckCollision(temp, direction, 0.0f))
 			{
-				//skill += 1;
+				scocr += 25;
 				items2.erase(items2.begin() + i);
 			}
 
@@ -743,6 +751,8 @@ int main()
 		skills.setString(std::to_string(skill));
 		window.draw(skills);
 		window.draw(skillsword);
+		scors.setString(std::to_string(scocr));
+		window.draw(scors);
 		window.setView(view);
 		
 		
