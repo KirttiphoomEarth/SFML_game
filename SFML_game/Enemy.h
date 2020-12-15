@@ -12,6 +12,7 @@ public :
 	void OnCollision(sf::Vector2f direction);
 	void setHp(float dmg);
 
+	unsigned int row;
 	bool faceRight;
 	float GetHp() { return hp; }
 	sf::Vector2f GetPosition() { return body.getPosition(); }
@@ -24,7 +25,7 @@ private :
 	sf::RectangleShape bodyHitbox;
 	sf::Vector2f velocity;
 	animation Animation;
-	unsigned int row;
+	
 	float speed;
 	float hp;
 };

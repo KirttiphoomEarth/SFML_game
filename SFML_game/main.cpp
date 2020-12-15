@@ -51,8 +51,8 @@ void background()
 int main()
 {
 	
-	int playerHP = 100;
-	 int i;
+	int playerHP = 3;
+	int i;
 	int j;
 	int enemiesSpeed = 50;
 	
@@ -72,17 +72,32 @@ int main()
 	sf::Texture bosseTexture;
 	sf::Texture bulletTexture;
 	sf::Texture meleeattacksTexture;
-	
+	sf::Texture Heart;
+	sf::Font font;
+
+	font.loadFromFile("Icey_3dpixel.ttf");
 	playerTexture.loadFromFile("warrior spritesheet calciumtrice.png");
 	enemiesTexture.loadFromFile("zrogue spritesheet calciumtrice.png");
+	Heart.loadFromFile("zheart.png");
+	
 	Playerr player(&playerTexture, sf::Vector2u(10, 10), 0.09f, 100.0f, 200.0f);
-	sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(View_HEIGHT, View_HEIGHT));
 	sf::RectangleShape hitboxBody;
+
+	sf::RectangleShape heart;
+	heart.setTexture(&Heart);
+	heart.setSize(sf::Vector2f(25.0f,30.0f));
 
 	sf::Texture tex;
 	sf::Sprite Backgroundack;
 	assert(tex.loadFromFile("zmapeiei.png"));
 	Backgroundack.setTexture(tex);
+
+
+	sf::Text playerhp;
+	playerhp.setFont(font);
+	playerhp.setCharacterSize(42);
+	sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(View_HEIGHT, View_HEIGHT));
+	
 
 	///////////////////////////////////////////// พื้น platforms ปกติ //////////////////////////////////////////////////////
 	platforms.push_back(Platform(nullptr, sf::Vector2f(15.0f, 257.0f), sf::Vector2f(140.5f, 261.5f)));
@@ -229,11 +244,13 @@ int main()
 	sf::Clock bulletTime;
 	sf::Clock meleettackTime;
 	sf::Clock hitboxTime;
+	sf::Clock delay;
 	sf::Clock enemiesTimeSpon1;
 	sf::Clock enemiesTimeSpon2;
 	float bull;
 	float melle;
 	float hitT;
+	float delaydie;
 	float enemSpo1; 
 	float enemSpo2;
 
@@ -280,6 +297,9 @@ int main()
 		if (player.GetPosition().x > 3858.0f && player.GetPosition().x < 3861.0f && player.GetPosition().y >= 200.0f && player.GetPosition().y < 560.0f) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); }
 		if (player.GetPosition().x > 3817.0f && player.GetPosition().x < 3833.0f && player.GetPosition().y == 580.50f ) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); }*/
 		//////////////////////////////////////////////  check dead หนาม //////////////////////////////////////////////////////////////////////// //
+		
+		playerhp.setPosition(sf::Vector2f(player.GetPosition().x + 280.0f, player.GetPosition().y - 320.0f));
+		heart.setPosition(sf::Vector2f(player.GetPosition().x + 240.0f, player.GetPosition().y - 305.0f));
 
 		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
 		/*hitboxBody.setOutlineColor(sf::Color::White);
@@ -289,7 +309,6 @@ int main()
 		Hitbox hitbox(sf::Vector2f(player.GetPosition().x, player.GetPosition().y));
 		Collider hitboxCollision = hitbox.GetCollider();
 		hitT = hitboxTime.getElapsedTime().asMilliseconds();
-		
 		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
 		sf::Vector2f direction;
 		///////////////////////////////////////////// ศัตรู //////////////////////////////////////////////////////
@@ -405,7 +424,7 @@ int main()
 			}
 		}
 
-		
+		printf("%d", playerHP);
 		///////////////////////////////////////////////////// MEELEE ATTACK ////////////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////// Bullet ////////////////////////////////////////////////////////////////
 		for (Bullet& bullet : bullets)
@@ -437,10 +456,11 @@ int main()
 				{
 					if (bullet.GetCollider().CheckCollision(temp, direction, 1.0f))
 					{
-						enemies[i].setHp(bullet.GetDmg());
-						bullet.SetDestroy(true);
+						
 						if (enemies[i].GetHp() <= 0)
 						{
+							for (Enemy& enemie : enemies)
+								enemie.row = 4;
 							enemies.erase(enemies.begin() + i);
 						}
 					}
@@ -470,6 +490,7 @@ int main()
 						if (enemies[i].GetHp() <= 0)
 						{
 							enemies.erase(enemies.begin() + i);
+							
 						}
 					}
 				}
@@ -491,10 +512,11 @@ int main()
 				}
 				if(hitbox.GetCollider().CheckCollision(temp, direction, 0.0f))
 				{
-					if (hitT > 400)
+					if (hitT > 600)
 					{
 						printf(" Hit\n ");
 						hitboxTime.restart();
+						playerHP -= 1;
 					}
 					
 				}
@@ -504,6 +526,7 @@ int main()
 			}
 			
 		}
+		
 		//////////////////////////////////////////////////////////////////////////////////////////////////  BOSS ////////////////////////////////////////////////////////////////////////
 		for (i = 0; i < bosse.size(); i++){
 			if (bosse.size() > 0){
@@ -554,9 +577,10 @@ int main()
 					}
 				}
 				if (hitbox.GetCollider().CheckCollision(temp, direction, 0.0f)){
-					if (hitT > 400){
+					if (hitT > 600){
 						printf(" Hit\n ");
 						hitboxTime.restart();
+						playerHP -= 1;
 					}
 
 				}
@@ -576,12 +600,17 @@ int main()
 		///////////////////////////////////////////////////// MEELEE ATTACK ////////////////////////////////////////////////////////////////
 
 		window.clear(sf::Color(40, 37, 56));
+		
 		window.draw(Backgroundack);
+		window.draw(heart);
+		playerhp.setString(std::to_string(playerHP));
+		window.draw(playerhp);
+
 		window.setView(view);
 		hitbox.Draw(window);
 		player.Draw(window);
+	
 		
-
 /*for (Enemy& enemie : enemies)
 			enemie.Draw(window);*/
 	for(int i = 0; i < enemies.size(); i++)

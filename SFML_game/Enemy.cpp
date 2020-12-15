@@ -5,7 +5,7 @@ Enemy::Enemy(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, sf
 
 {
 	this->speed = speed;
-	this->hp = 150.0f;
+	this->hp = 200.0f;
 	body.setSize(sf::Vector2f(40.0f, 50.0f));
 	body.setOrigin(body.getSize() / 2.0f);
 	body.setPosition(position);
@@ -40,7 +40,7 @@ void Enemy::Update(float deltaTime)
 		else
 			faceRight = false;
 	}
-
+	
 	Animation.Update(row, deltaTime, faceRight);
 	body.setTextureRect(Animation.uvRect);
 	body.move(velocity * deltaTime);
