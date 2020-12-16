@@ -22,8 +22,8 @@ Playerr::Playerr(sf::Texture* texture, sf::Vector2u imageCount, float switchtime
 void Playerr::Update(float deltaTime)
 {
 	
-	//velocity.x *= 0.45f; // ใช้จริง
-	velocity.x *= 0.7f;
+	velocity.x *= 0.45f; // ใช้จริง
+	//velocity.x *= 0.7f;
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
@@ -37,7 +37,7 @@ void Playerr::Update(float deltaTime)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) and sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		velocity.x *= 1.0f;
+		velocity.x *= 0.8f;
 		velocity.x += speed;
 	}
 
@@ -56,8 +56,8 @@ void Playerr::Update(float deltaTime)
 	
 
 	//velocity.y += 981.0f * deltaTime;
-	//velocity.y += 1450.0f * deltaTime; // ใช้จริง
-	velocity.y += 800.0f * deltaTime;
+	velocity.y += 1450.0f * deltaTime; // ใช้จริง
+	//velocity.y += 800.0f * deltaTime;
 	
 
 	if (velocity.x == 0.0f)
@@ -86,13 +86,17 @@ void Playerr::Update(float deltaTime)
 	//if (body.getPosition().x > 1410.0f && body.getPosition().x < 1475.0f && body.getPosition().y == 590.0f) { row = 4; body.setPosition(sf::Vector2f(8000.0f, 570.0f)); }
 	//x == 2899 168
 	
-	/*if (body.getPosition().x > 2900.0f && body.getPosition().x < 3660.0f)
+	if (body.getPosition().x > 2900.0f && body.getPosition().x < 3660.0f)
 	{
 		velocity.y += 1850.0f * deltaTime;
-	}*/
+	}
 	if (body.getPosition().x > 166.0f && body.getPosition().x < 169 && sf::Keyboard::isKeyPressed(sf::Keyboard::O))
 	{
-		body.setPosition(3800.0f,200.0f);
+		body.setPosition(5000.0f,400.0f);
+	}
+	if (body.getPosition().x > 166.0f && body.getPosition().x < 169 && sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+	{
+		body.setPosition(9097.0f, 400.0f);
 	}
 	
 
@@ -100,7 +104,7 @@ void Playerr::Update(float deltaTime)
 	body.setTextureRect(Animation.uvRect);
 	body.move(velocity * deltaTime);
 
-	//printf("x == %.2f   y === %.2f\n", body.getPosition().x, body.getPosition().y);
+	printf("x == %.2f   y === %.2f\n", body.getPosition().x, body.getPosition().y);
 
 
 }

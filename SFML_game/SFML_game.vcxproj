@@ -149,6 +149,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="boss.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Hitbox.cpp" />
@@ -157,12 +158,14 @@
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Playerr.cpp" />
+    <ClCompile Include="Textbox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="acttack.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="boss.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Hitbox.h" />
@@ -170,6 +173,7 @@
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Playerr.h" />
+    <ClInclude Include="Textbox.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,10 +1,22 @@
-﻿#include <SFML/Graphics.hpp>
+﻿#define _CRT_SECURE_NO_WARNINGS
+#define MENU 123
+#define HIGHSCORE 124
+#define CLOSE_HIGHSCORE 125
+#define INGAME 456
+#define ENDGAME 789
+#define EXIT -1
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <SFML/Window.hpp>
+#include<string>
 #include <iostream>
 #include <cassert>
 #include <vector>
 #include <time.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <algorithm>
+#include <utility>
 #include "Playerr.h"
 #include "Platform.h"
 #include "Collider.h"
@@ -14,9 +26,12 @@
 #include "Hitbox.h"
 #include "boss.h"
 #include "iTem.h"
+#include "Button.h"
+#include "Textbox.h"
 
 static const float View_HEIGHT = 550.0f;
 bool Retry(false);
+int stateGame = 0;
 
 void ResizeView(const sf::RenderWindow& window, sf::View& view)
 {
@@ -67,6 +82,7 @@ int main()
 	bool item_drop;
 	float enemiesX;
 	float enemiesY;
+	int stateGameCheck = 0;
 	
 	std::vector<Platform> platforms;
 	std::vector<Platform> platformsEnemiesCheck;
@@ -131,7 +147,20 @@ int main()
 	scors.setFont(font);
 	scors.setCharacterSize(42);
 
+	sf::Sound Bg;
+	sf::SoundBuffer BufferBG;
+	if (!BufferBG.loadFromFile("y2mate.com-Undertale-Megalovania.ogg"))
+	{
+		std::cout << "Loand fail" << std::endl;
+	}
+	Bg.setLoop(true);
+	Bg.setBuffer(BufferBG);
+	Bg.play();
+
 	sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(View_HEIGHT, View_HEIGHT));
+	Textbox textbox1(24, sf::Color(120, 120, 120, 80), false, font, sf::Vector2f(600.0f, 340.0f));
+
+	
 	
 
 	///////////////////////////////////////////// พื้น platforms ปกติ //////////////////////////////////////////////////////
@@ -287,7 +316,23 @@ int main()
 
 	bosse.push_back(boss(&enemiesTexture, sf::Vector2u(10, 10), 0.09f, sf::Vector2f(7600.0f, 553.0f), enemiesSpeed));
 	bosse.push_back(boss(&enemiesTexture, sf::Vector2u(10, 10), 0.09f, sf::Vector2f(8100.0f, 553.0f), enemiesSpeed));
+	////////////////////////////////////////// Menu ///////////////////////////////////
+	sf::Texture MenuText;
+	MenuText.loadFromFile("Menu1.png");
+	Platform Menu(&MenuText, sf::Vector2f(1024, 768), sf::Vector2f(1024/2 , 768/2 ));
+	sf::Texture PlayText;
+	PlayText.loadFromFile("Play.png");
+	Platform Play(&PlayText, sf::Vector2f(100,70), sf::Vector2f(200-30, 300-30));
+	sf::Texture ExitText;
+	ExitText.loadFromFile("Exit.png");
+	Platform Exit(&ExitText, sf::Vector2f(100, 70), sf::Vector2f(200-30, 400-30));
+	sf::Texture HIGHISCORSText;
+	HIGHISCORSText.loadFromFile("HIGHISCORS.png");
+	Platform HIGHISCORS(&HIGHISCORSText, sf::Vector2f(150, 70), sf::Vector2f(200-30, 500-30));
+	
 
+
+	////////////////////////////////////////// Menu ///////////////////////////////////
 	float deltaTime = 0.0f;
 	sf::Clock clock;
 	sf::Clock bulletTime;
@@ -323,39 +368,70 @@ int main()
 			}
 			scocr += player.GetPosition().x / 1000;
 		}
+		if (stateGame == 0) { //Main
+			//printf("0000000000000000000");
+			if (stateGameCheck == 0) {
+				Menu.Draw(window);
+				Play.Draw(window);
+				HIGHISCORS.Draw(window);
+				Exit.Draw(window);
+				//printf("11111111111111111111111");
+			}
+			if (Play.body.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window)))) {
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+					stateGame = 1;
+				}
+			}
+			if (HIGHISCORS.body.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window)))) {
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+					stateGameCheck = 2;
+				}
+				
 
-
+			}
+			if (Exit.body.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window)))) {
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+					window.close();
+				}
+			}
+			
+			window.display();
+		}
+		//scocr += player.GetPosition().x / 1000;
 		//time = cl.getElapsedTime().asSeconds();
 		//printf("%f\n",time);
 		//////////////////////////////////////////////  check dead หนาม //////////////////////////////////////////////////////////////////////// 
-		/*if (player.GetPosition().x > 1410.0f && player.GetPosition().x < 1475.0f && player.GetPosition().y == 590.0f) { player.SetPosition(sf::Vector2f(150.0f, 200.0f)); }
-		if (player.GetPosition().x > 1585.6f && player.GetPosition().x < 1620.0f && player.GetPosition().y == 421.50f) { player.SetPosition(sf::Vector2f(1408.85f, 400.0f)); }
-		if (player.GetPosition().x > 1805.78f && player.GetPosition().x < 1893.63f && player.GetPosition().y == 421.50f) { player.SetPosition(sf::Vector2f(1408.85f, 400.0f)); }
-		if (player.GetPosition().x > 2026.0f && player.GetPosition().x < 2064.50f && player.GetPosition().y == 421.50f) { player.SetPosition(sf::Vector2f(1408.85f, 400.0f)); }
-		if (player.GetPosition().x > 2243.93f && player.GetPosition().x < 2281.98f && player.GetPosition().y == 421.50f) { player.SetPosition(sf::Vector2f(1408.85f, 400.0f)); }
-		if (player.GetPosition().x > 2464.60f && player.GetPosition().x < 2497.0f && player.GetPosition().y == 421.50f) { player.SetPosition(sf::Vector2f(1408.85f, 400.0f)); }
-		if (player.GetPosition().x > 2687.0f && player.GetPosition().x < 2722.0f && player.GetPosition().y == 417.50f) { player.SetPosition(sf::Vector2f(1408.85f, 400.0f)); }
-		if (player.GetPosition().x > 1512.0f && player.GetPosition().x < 1586.0f && player.GetPosition().y == 593.0f) { player.SetPosition(sf::Vector2f(150.0f, 200.0f)); }
-		if (player.GetPosition().x > 1569.0f && player.GetPosition().x < 1623.0f && player.GetPosition().y == 593.0f) { player.SetPosition(sf::Vector2f(150.0f, 200.0f)); }
-		if (player.GetPosition().x > 1728.0f && player.GetPosition().x < 1802.0f && player.GetPosition().y == 593.0f) { player.SetPosition(sf::Vector2f(150.0f, 200.0f)); }
-		if (player.GetPosition().x > 1839.0f && player.GetPosition().x < 1913.0f && player.GetPosition().y == 593.0f) { player.SetPosition(sf::Vector2f(150.0f, 200.0f)); }
-		if (player.GetPosition().x > 1948.0f && player.GetPosition().x < 2022.0f && player.GetPosition().y == 593.0f) { player.SetPosition(sf::Vector2f(150.0f, 200.0f)); }
-		if (player.GetPosition().x > 2059.0f && player.GetPosition().x < 2135.0f && player.GetPosition().y == 593.0f) { player.SetPosition(sf::Vector2f(150.0f, 200.0f)); }
-		if (player.GetPosition().x > 2059.0f && player.GetPosition().x < 3748.0f && player.GetPosition().y == 593.0f) { player.SetPosition(sf::Vector2f(150.0f, 200.0f)); }
-		if (player.GetPosition().x > 2950.0f && player.GetPosition().x < 3625.0f && player.GetPosition().y >=  490.0f && player.GetPosition().y < 505.0f) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); }
-		if (player.GetPosition().x > 3728.0f && player.GetPosition().x < 3852.0f && player.GetPosition().y >= 180.0f && player.GetPosition().y < 245.0f) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); }
-		if (player.GetPosition().x > 3858.0f && player.GetPosition().x < 3861.0f && player.GetPosition().y >= 200.0f && player.GetPosition().y < 560.0f) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); }
-		if (player.GetPosition().x > 3817.0f && player.GetPosition().x < 3833.0f && player.GetPosition().y == 580.50f ) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); }*/
+		if (player.GetPosition().x > 1410.0f && player.GetPosition().x < 1475.0f && player.GetPosition().y == 590.0f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1; }
+		if (player.GetPosition().x > 1585.6f && player.GetPosition().x < 1620.0f && player.GetPosition().y == 421.50f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1; }
+		if (player.GetPosition().x > 1805.78f && player.GetPosition().x < 1893.63f && player.GetPosition().y == 421.50f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1; }
+		if (player.GetPosition().x > 2026.0f && player.GetPosition().x < 2064.50f && player.GetPosition().y == 421.50f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 2243.93f && player.GetPosition().x < 2281.98f && player.GetPosition().y == 421.50f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 2464.60f && player.GetPosition().x < 2497.0f && player.GetPosition().y == 421.50f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 2687.0f && player.GetPosition().x < 2722.0f && player.GetPosition().y == 417.50f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 1512.0f && player.GetPosition().x < 1586.0f && player.GetPosition().y >= 593.0f && player.GetPosition().y <= 595.0f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 1569.0f && player.GetPosition().x < 1623.0f && player.GetPosition().y >= 593.0f && player.GetPosition().y <= 595.0f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 1728.0f && player.GetPosition().x < 1802.0f && player.GetPosition().y >= 593.0f && player.GetPosition().y <= 595.0f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 1839.0f && player.GetPosition().x < 1913.0f && player.GetPosition().y >= 593.0f && player.GetPosition().y <= 595.0f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 1948.0f && player.GetPosition().x < 2022.0f && player.GetPosition().y >= 593.0f && player.GetPosition().y <= 595.0f) { player.SetPosition(sf::Vector2f(1373.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 2059.0f && player.GetPosition().x < 2135.0f && player.GetPosition().y >= 593.0f && player.GetPosition().y <= 595.0f) { player.SetPosition(sf::Vector2f(2860.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 2059.0f && player.GetPosition().x < 3748.0f && player.GetPosition().y >= 593.0f && player.GetPosition().y <= 595.0f) { player.SetPosition(sf::Vector2f(2860.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 2950.0f && player.GetPosition().x < 3625.0f && player.GetPosition().y >=  490.0f && player.GetPosition().y < 505.0f) { player.SetPosition(sf::Vector2f(2860.0f, 450.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 3728.0f && player.GetPosition().x < 3852.0f && player.GetPosition().y >= 180.0f && player.GetPosition().y < 245.0f) { player.SetPosition(sf::Vector2f(2860.0f, 400.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 3858.0f && player.GetPosition().x < 3861.0f && player.GetPosition().y >= 200.0f && player.GetPosition().y < 560.0f) { player.SetPosition(sf::Vector2f(3400.0f, 400.0f)); playerHP -= 1;}
+		if (player.GetPosition().x > 3817.0f && player.GetPosition().x < 3833.0f && player.GetPosition().y == 580.50f ) { player.SetPosition(sf::Vector2f(2900.0f, 400.0f)); playerHP -= 1;}
 		//////////////////////////////////////////////  check dead หนาม //////////////////////////////////////////////////////////////////////// //
-		
+
+		if(stateGame == 1)
+		{
+			
 		playerhp.setPosition(sf::Vector2f(player.GetPosition().x + 220.0f, player.GetPosition().y - 270.0f));
 		heart.setPosition(sf::Vector2f(player.GetPosition().x + 175.0f, player.GetPosition().y - 255.0f));
 
 		skills.setPosition(sf::Vector2f(player.GetPosition().x + 220.0f, player.GetPosition().y - 230.0f));
 		skillsword.setPosition(sf::Vector2f(player.GetPosition().x + 171.5f, player.GetPosition().y - 215.0f)); //scors
-		
+
 		scors.setPosition(sf::Vector2f(player.GetPosition().x - 240.0f, player.GetPosition().y - 270.0f));
-	
+
 		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
 		/*hitboxBody.setOutlineColor(sf::Color::White);
 		hitboxBody.setSize(sf::Vector2f(20.f, 50.0f));
@@ -364,14 +440,14 @@ int main()
 		Hitbox hitbox(sf::Vector2f(player.GetPosition().x, player.GetPosition().y));
 		Collider hitboxCollision = hitbox.GetCollider();
 		hitT = hitboxTime.getElapsedTime().asMilliseconds();
-		
+
 		/////////////////////////////////// HITBIX.BODY ////////////////////////////////////////////////////
 		sf::Vector2f direction;
 		///////////////////////////////////////////// ศัตรู //////////////////////////////////////////////////////
 		enemSpo1 = enemiesTimeSpon1.getElapsedTime().asSeconds();
-		if (enemSpo1 > 5.0f)
+		if (enemSpo1 > 30.0f)
 		{
-			enemies.push_back(Enemy(&enemiesTexture, sf::Vector2u(10,10), 0.9f, sf::Vector2f(4280.0f, 553.0f), enemiesSpeed));
+			enemies.push_back(Enemy(&enemiesTexture, sf::Vector2u(10, 10), 0.9f, sf::Vector2f(4280.0f, 553.0f), enemiesSpeed));
 			enemies.push_back(Enemy(&enemiesTexture, sf::Vector2u(10, 10), 0.09f, sf::Vector2f(4420.0f, 553.0f), enemiesSpeed));
 			enemies.push_back(Enemy(&enemiesTexture, sf::Vector2u(10, 10), 0.09f, sf::Vector2f(4545.0f, 553.0f), enemiesSpeed));
 			enemies.push_back(Enemy(&enemiesTexture, sf::Vector2u(10, 10), 0.09f, sf::Vector2f(4770.0f, 553.0f), enemiesSpeed));
@@ -382,7 +458,7 @@ int main()
 			enemies.push_back(Enemy(&enemiesTexture, sf::Vector2u(10, 10), 0.09f, sf::Vector2f(5555.0f, 553.0f), enemiesSpeed));
 			enemies.push_back(Enemy(&enemiesTexture, sf::Vector2u(10, 10), 0.09f, sf::Vector2f(5720.0f, 553.0f), enemiesSpeed));
 			enemiesTimeSpon1.restart();
-			
+
 
 		}
 		enemSpo2 = enemiesTimeSpon2.getElapsedTime().asSeconds();
@@ -399,17 +475,17 @@ int main()
 		bull = bulletTime.getElapsedTime().asMilliseconds();
 		if (bull > 500.0f)
 		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::K) ) //&& skill > 0
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::K ) && skill > 0) //&& skill > 0
 			{
 				if (player.faceRight == false) {
-					bullets.push_back(Bullet(&bulletTextureLeft, sf::Vector2u(1,1), 0.1f, sf::Vector2f(player.GetPosition().x - 10, player.GetPosition().y), -100));
+					bullets.push_back(Bullet(&bulletTextureLeft, sf::Vector2u(1, 1), 0.1f, sf::Vector2f(player.GetPosition().x - 10, player.GetPosition().y), -150));
 				}
-				else bullets.push_back(Bullet(&bulletTextureRight, sf::Vector2u(1,1), 0.1f, sf::Vector2f(player.GetPosition().x + 10, player.GetPosition().y), 100));
+				else bullets.push_back(Bullet(&bulletTextureRight, sf::Vector2u(1, 1), 0.1f, sf::Vector2f(player.GetPosition().x + 10, player.GetPosition().y), 150));
 				bulletTime.restart();
 				skill -= 1;
 			}
 		}
-		
+
 		melle = meleettackTime.getElapsedTime().asMilliseconds();
 		if (melle > 400.0f)
 		{
@@ -420,14 +496,14 @@ int main()
 				}
 				else
 					meleeattacks.push_back(MeleeAttack(&meleeattacksTexture, sf::Vector2u(), 0, sf::Vector2f(player.GetPosition().x + 10, player.GetPosition().y), 100));
-					meleettackTime.restart();
+				meleettackTime.restart();
 			}
 		}
-		
-		
+
+
 		player.Update(deltaTime);
 		hitbox.Update(deltaTime);
-		
+
 		for (i = 0; i < enemies.size(); i++)
 			enemies[i].Update(deltaTime);
 		for (i = 0; i < bosse.size(); i++)
@@ -436,7 +512,7 @@ int main()
 		//Collider playerGetCollider = player.GetCollider();
 		view.setCenter(player.GetPosition());
 		Collider playerCollision = player.GetCollider();
-		
+
 		for (Platform& platform : platforms)
 			if (platform.GetCollider().CheckCollision(playerCollision, direction, 1.0f))
 				player.OnCollision(direction);
@@ -501,11 +577,11 @@ int main()
 			meleeattack.Update(deltaTime);
 		}
 		//std::cout << bullets.size() << std::endl;
-		for ( i = 0; i < enemies.size(); i++)
+		for (i = 0; i < enemies.size(); i++)
 		{
-			if (enemies.size() > 0) 
+			if (enemies.size() > 0)
 			{
-				
+
 				Hitbox hitboxenemies(sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y));
 				Collider temp = hitboxenemies.GetCollider();
 				//Collider temp = enemies[i].GetCollider();
@@ -519,18 +595,18 @@ int main()
 						{
 							enemiesdid = true;
 							item_drop = rand() % 2;
-							if (item_drop == true )
+							if (item_drop == true)
 							{
-								
+
 								item_random = rand() % 3;
-								printf("%d\n",item_random);
+								printf("%d\n", item_random);
 								if (item_random == 0)
 								{
 									Checkitem = 0;
 									enemiesX = enemies[i].GetPosition().x;
 									enemiesY = enemies[i].GetPosition().y;
 									//items.push_back(iTem(&Heart,sf::Vector2u(1,1),0.1f,sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 0));
-								
+
 								}
 								else if (item_random == 1)
 								{
@@ -552,7 +628,7 @@ int main()
 						}
 					}
 				}
-				for ( j = 0; j < bullets.size(); j++)
+				for (j = 0; j < bullets.size(); j++)
 				{
 					if (bullets[j].isDestroy())
 					{
@@ -576,9 +652,39 @@ int main()
 						meleeattack.SetDestroy(true);
 						if (enemies[i].GetHp() <= 0)
 						{
+							enemiesdid = true;
+							item_drop = rand() % 2;
+							if (item_drop == true)
+							{
+
+								item_random = rand() % 3;
+								printf("%d\n", item_random);
+								if (item_random == 0)
+								{
+									Checkitem = 0;
+									enemiesX = enemies[i].GetPosition().x;
+									enemiesY = enemies[i].GetPosition().y;
+									//items.push_back(iTem(&Heart,sf::Vector2u(1,1),0.1f,sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 0));
+
+								}
+								else if (item_random == 1)
+								{
+									Checkitem = 1;
+									enemiesX = enemies[i].GetPosition().x;
+									enemiesY = enemies[i].GetPosition().y;
+									//items.push_back(iTem(&skillswords, sf::Vector2u(1, 1), 0.1f, sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 0));
+								}
+								else if (item_random == 2)
+								{
+									Checkitem = 2;
+									enemiesX = enemies[i].GetPosition().x;
+									enemiesY = enemies[i].GetPosition().y;
+									//items.push_back(iTem(&itemTexture, sf::Vector2u(4,1 ), 0.9f, sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 1));
+								}
+							}
 							scocr += 50;
 							enemies.erase(enemies.begin() + i);
-							
+
 						}
 					}
 				}
@@ -598,7 +704,7 @@ int main()
 						}
 					}
 				}
-				if(hitbox.GetCollider().CheckCollision(temp, direction, 0.0f))
+				if (hitbox.GetCollider().CheckCollision(temp, direction, 0.0f))
 				{
 					if (hitT > 600)
 					{
@@ -606,60 +712,117 @@ int main()
 						hitboxTime.restart();
 						playerHP -= 1;
 					}
-					
+
 				}
 				hitboxenemies.Update(deltaTime);
 				//hitboxenemies.Draw(window);
-				
+
 			}
-			
+
 		}
-		
+
 		//////////////////////////////////////////////////////////////////////////////////////////////////  BOSS ////////////////////////////////////////////////////////////////////////
-		for (i = 0; i < bosse.size(); i++){
-			if (bosse.size() > 0){
+		for (i = 0; i < bosse.size(); i++) {
+			if (bosse.size() > 0) {
 				Hitbox hitboxboss(sf::Vector2f(bosse[i].GetPosition().x, bosse[i].GetPosition().y));
 				Collider temp = hitboxboss.GetCollider();
-				for (Bullet& bullet : bullets){
-					if (bullet.GetCollider().CheckCollision(temp, direction, 1.0f)){
+				for (Bullet& bullet : bullets) {
+					if (bullet.GetCollider().CheckCollision(temp, direction, 1.0f)) {
 						bosse[i].setHp(bullet.GetDmg());
 						bullet.SetDestroy(true);
-						if (bosse[i].GetHp() <= 0){
-							
+						if (bosse[i].GetHp() <= 0) {
+							item_drop = rand() % 2;
+							if (item_drop == true)
+							{
+
+								item_random = rand() % 3;
+								printf("%d\n", item_random);
+								if (item_random == 0)
+								{
+									Checkitem = 0;
+									enemiesX = enemies[i].GetPosition().x;
+									enemiesY = enemies[i].GetPosition().y;
+									//items.push_back(iTem(&Heart,sf::Vector2u(1,1),0.1f,sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 0));
+
+								}
+								else if (item_random == 1)
+								{
+									Checkitem = 1;
+									enemiesX = enemies[i].GetPosition().x;
+									enemiesY = enemies[i].GetPosition().y;
+									//items.push_back(iTem(&skillswords, sf::Vector2u(1, 1), 0.1f, sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 0));
+								}
+								else if (item_random == 2)
+								{
+									Checkitem = 2;
+									enemiesX = enemies[i].GetPosition().x;
+									enemiesY = enemies[i].GetPosition().y;
+									//items.push_back(iTem(&itemTexture, sf::Vector2u(4,1 ), 0.9f, sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 1));
+								}
+							}
 							scocr += 150;
 							bosse.erase(bosse.begin() + i);
 						}
 					}
 				}
-				for (j = 0; j < bullets.size(); j++){
-					if (bullets[j].isDestroy()){
+				for (j = 0; j < bullets.size(); j++) {
+					if (bullets[j].isDestroy()) {
 						bullets.erase(bullets.begin() + j);
 						//enemyHP -= 25;
 					}
-					else{
-						if (bull > 5000){
+					else {
+						if (bull > 5000) {
 							bullets.erase(bullets.begin() + j);
 							bulletTime.restart();
 						}
 					}
 				}
-				for (MeleeAttack& meleeattack : meleeattacks){
-					if (meleeattack.GetCollider().CheckCollision(temp, direction, 1.0f)){
+				for (MeleeAttack& meleeattack : meleeattacks) {
+					if (meleeattack.GetCollider().CheckCollision(temp, direction, 1.0f)) {
 						bosse[i].setHp(meleeattack.GetDmg());
 						meleeattack.SetDestroy(true);
 						if (bosse[i].GetHp() <= 0)
 						{
+							item_drop = rand() % 2;
+							if (item_drop == true)
+							{
+
+								item_random = rand() % 3;
+								printf("%d\n", item_random);
+								if (item_random == 0)
+								{
+									Checkitem = 0;
+									enemiesX = enemies[i].GetPosition().x;
+									enemiesY = enemies[i].GetPosition().y;
+									//items.push_back(iTem(&Heart,sf::Vector2u(1,1),0.1f,sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 0));
+
+								}
+								else if (item_random == 1)
+								{
+									Checkitem = 1;
+									enemiesX = enemies[i].GetPosition().x;
+									enemiesY = enemies[i].GetPosition().y;
+									//items.push_back(iTem(&skillswords, sf::Vector2u(1, 1), 0.1f, sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 0));
+								}
+								else if (item_random == 2)
+								{
+									Checkitem = 2;
+									enemiesX = enemies[i].GetPosition().x;
+									enemiesY = enemies[i].GetPosition().y;
+									//items.push_back(iTem(&itemTexture, sf::Vector2u(4,1 ), 0.9f, sf::Vector2f(enemies[i].GetPosition().x, enemies[i].GetPosition().y), 1));
+								}
+							}
 							scocr += 150;
 							bosse.erase(bosse.begin() + i);
 						}
 					}
 				}
-				for (j = 0; j < meleeattacks.size(); j++){
-					if (meleeattacks[j].isDestroy()){
+				for (j = 0; j < meleeattacks.size(); j++) {
+					if (meleeattacks[j].isDestroy()) {
 						meleeattacks.erase(meleeattacks.begin() + j);
 						//enemyHP -= 25;
 					}
-					else{
+					else {
 						if (melle > 470)
 						{
 							meleeattacks.erase(meleeattacks.begin() + j);
@@ -667,15 +830,15 @@ int main()
 						}
 					}
 				}
-				if (hitbox.GetCollider().CheckCollision(temp, direction, 0.0f)){
-					if (hitT > 600){
+				if (hitbox.GetCollider().CheckCollision(temp, direction, 0.0f)) {
+					if (hitT > 600) {
 						//printf(" Hit\n ");
 						hitboxTime.restart();
 						playerHP -= 1;
 					}
 
 				}
-				
+
 				hitboxboss.Update(deltaTime);
 				//hitboxenemies.Draw(window);
 
@@ -687,10 +850,10 @@ int main()
 			items.push_back(iTem(&Heart, sf::Vector2u(1, 1), 0.1f, sf::Vector2f(enemiesX, enemiesY), 0));
 			Checkitem = 5;
 		}
-		for (i = 0; i < items.size();i++)
+		for (i = 0; i < items.size(); i++)
 		{
 			Collider temp = items[i].GetCollider();
-			if(hitbox.GetCollider().CheckCollision(temp, direction, 0.0f))
+			if (hitbox.GetCollider().CheckCollision(temp, direction, 0.0f))
 			{
 				playerHP += 1;
 				items.erase(items.begin() + i);
@@ -713,7 +876,7 @@ int main()
 		}
 		if (Checkitem == 2)
 		{
-			items2.push_back(iTem(&itemTexture, sf::Vector2u(4,1), 0.9f, sf::Vector2f(enemiesX, enemiesY), 1));
+			items2.push_back(iTem(&itemTexture, sf::Vector2u(4, 1), 0.9f, sf::Vector2f(enemiesX, enemiesY), 1));
 			Checkitem = 5;
 		}
 		for (i = 0; i < items2.size(); i++)
@@ -727,8 +890,9 @@ int main()
 
 
 		}
-		//////////////////////////////////////////////////////////////////////////////////////////////////  BOSS ////////////////////////////////////////////////////////////////////////
 		
+		//////////////////////////////////////////////////////////////////////////////////////////////////  BOSS ////////////////////////////////////////////////////////////////////////
+
 		for (Bullet& bullet : bullets)
 			bullet.Update(deltaTime);
 		for (MeleeAttack& meleeattack : meleeattacks)
@@ -742,7 +906,7 @@ int main()
 
 		window.clear(sf::Color(40, 37, 56));
 		window.draw(Backgroundack);
-		hitbox.Draw(window);
+		//hitbox.Draw(window);
 		player.Draw(window);
 
 		playerhp.setString(std::to_string(playerHP));
@@ -754,62 +918,76 @@ int main()
 		scors.setString(std::to_string(scocr));
 		window.draw(scors);
 		window.setView(view);
-		
-		
-/*for (Enemy& enemie : enemies)
-			enemie.Draw(window);*/
-	for(int i = 0; i < enemies.size(); i++)
+
+
+		/*for (Enemy& enemie : enemies)
+					enemie.Draw(window);*/
+		for (int i = 0; i < enemies.size(); i++)
 		{
-			if (enemies.size() > 0) 
+			if (enemies.size() > 0)
 			{
 				enemies[i].Draw(window);
 			}
 		}
 
-	for (int i = 0; i < bosse.size(); i++)
-	{
-		if (bosse.size() > 0)
+		for (int i = 0; i < bosse.size(); i++)
 		{
-			bosse[i].Draw(window);
+			if (bosse.size() > 0)
+			{
+				bosse[i].Draw(window);
+			}
 		}
-	}
-	
-	for (Bullet& bullet : bullets)
-		bullet.Draw(window);
 
-	for (MeleeAttack& meleeattack : meleeattacks)
-		meleeattack.Draw(window);
+		for (Bullet& bullet : bullets)
+			bullet.Draw(window);
 
-	for (iTem& item : items)
-		item.Draw(window);
-	
-	for (iTem& item1 : items1)
-		item1.Draw(window);
+		/*for (MeleeAttack& meleeattack : meleeattacks)
+			meleeattack.Draw(window);*/
 
-	for (iTem& item2 : items2)
-		item2.Draw(window);
+		for (iTem& item : items)
+			item.Draw(window);
 
-	/*for (Platform& platform : platforms)
-		 platform.Draw(window);
+		for (iTem& item1 : items1)
+			item1.Draw(window);
 
-	for (Platform& platform : platformsEnemiesCheck)
-		platform.Draw(window);*/
+		for (iTem& item2 : items2)
+			item2.Draw(window);
 
-	window.display();
+		/*for (Platform& platform : platforms)
+			 platform.Draw(window);*/
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
+		/*for (Platform& platform : platformsEnemiesCheck)
+			platform.Draw(window);*/
+
+		window.display();
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
 		{
 			Retry = true;
 		}
-	if (Retry) 
+		if (player.GetPosition().x > 9000.0f && player.GetPosition().x < 10000.0f && player.GetPosition().y > 445.0f && player.GetPosition().y < 500.0f && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
 		{
 			window.close();
 		}
-
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I))
+		{
+			skill = 99;
+			playerHP = 99;
+		}
+		if (Retry)
+		{
+			window.close();
+		}
+		if (playerHP == 0)
+		{
+			window.close();
+			
+		}
+	}
 
 	}
 	
-
+	
 	
 	return 0;
 }
